@@ -1,0 +1,29 @@
+<page-header title='考核 - 系部列表'></page-header>
+
+
+<nz-card>
+  <nz-table #basicTable [nzData]="result.assessmentDepartmentOutputs" nzPageSize="20" [nzLoading]="tableLoading">
+    <thead>
+      <tr>
+        <th>系部名称</th>
+        <th>考核标准分总分</th>
+        <th>自评总分</th>
+        <th>专家评分</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let item of basicTable.data'>
+        <td>{{item.departmentName}}</td>
+        <td>{{item.totalScore}}</td>
+        <td>{{item.sinceScore}}</td>
+        <td>{{item.expertScore}}</td>
+        <td>
+          <a *ngIf="settings.user.role=='administrator'" (click)='detail(item)'>查看详细</a>
+          <a *ngIf="settings.user.role=='expert'" (click)='detail(item)'>专家评分</a>
+        </td>
+      </tr>
+
+    </tbody>
+  </nz-table>
+</nz-card>

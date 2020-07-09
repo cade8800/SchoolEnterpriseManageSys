@@ -1,0 +1,63 @@
+<page-header [title]="id?'编辑-考核':'新增-考核'"></page-header>
+
+<nz-card>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="schoolYear">学年</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <nz-select formControlName="schoolYear" nzPlaceHolder="学年" nzAllowClear>
+                    <nz-option *ngFor="let item of schoolYear" [nzLabel]="item" [nzValue]="item">
+                    </nz-option>
+                </nz-select>
+                <nz-form-explain *ngIf="form.get('schoolYear').dirty && form.get('schoolYear').errors">请选择学年</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="rangeTime">考核时间范围</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <nz-range-picker formControlName="rangeTime" id="rangeTime" nzPlaceHolder=""></nz-range-picker>
+                <nz-form-explain *ngIf="form.get('rangeTime').dirty && form.get('rangeTime').errors">请选择考核时间范围</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="deadline">截止时间</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <nz-date-picker formControlName="deadline" id="deadline" nzShowTime></nz-date-picker>
+                <nz-form-explain *ngIf="form.get('deadline').dirty && form.get('deadline').errors">请选择截止时间</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzFor="deplist">参与考核的系部</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+
+
+                <nz-checkbox-wrapper (nzOnChange)="checkDepartment($event)" style="width: 100%;">
+                    <div nz-row>
+                        <div nz-col nzSpan="8" *ngFor='let item of departmentList'>
+                            <label nz-checkbox [nzChecked]="item.checked" (click)='clickDepartment(item)' [nzValue]="item.id">{{item.name}}</label>
+                        </div>
+                    </div>
+                </nz-checkbox-wrapper>
+
+
+
+                <nz-form-explain *ngIf="form.get('deplist').dirty && form.get('deplist').errors">请选择参与考核的系部</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+            <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+                <button nz-button type="submit" [nzLoading]="submitting">保存并提交</button>
+            </nz-form-control>
+        </nz-form-item>
+
+    </form>
+
+</nz-card>

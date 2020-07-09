@@ -1,0 +1,104 @@
+<page-header [title]="'系数据采集详情'">
+</page-header>
+
+<nz-card nzTitle="校友会与社会合作">
+  <nz-table [nzData]='tableData' [nzHideOnSinglePage]="'true'" nzBordered>
+    <!-- [nzFooter]='departmentCollectDetail.cooperation.remark' -->
+    <thead>
+      <tr>
+        <!-- <th>校友会总数</th>
+                <th>境外校友会数量</th>
+                <th>境内校友会数量</th> -->
+        <th>合作机构总数</th>
+        <!-- <th>学术机构数量</th> -->
+        <th>行业或企业机构数量</th>
+        <th>地方政府数量</th>
+        <!-- <th>备注</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <!-- <td>{{departmentCollectDetail.cooperation.alumniAssociationTotal}}</td>
+                <td>{{departmentCollectDetail.cooperation.overseasAlumniAssociationCount}}</td>
+                <td>{{departmentCollectDetail.cooperation.domesticAlumniAssociationCount}}</td> -->
+        <td>{{departmentCollectDetail.cooperation.cooperationAgencyTotal}}</td>
+        <!-- <td>{{departmentCollectDetail.cooperation.academicAgencyCount}}</td> -->
+        <td>{{departmentCollectDetail.cooperation.enterpriseCount}}</td>
+        <td>{{departmentCollectDetail.cooperation.localGovernmentCount}}</td>
+        <!-- <td>{{departmentCollectDetail.cooperation.remark}}</td> -->
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <br>
+
+  <nz-table #cooperationFileList [nzData]='departmentCollectDetail.cooperation.fileList' [nzHideOnSinglePage]="'true'" nzBordered nzTitle='相关佐证资料'>
+    <tbody>
+      <tr *ngIf="cooperationFileList.data">
+        <td>
+          <button *ngFor="let i of cooperationFileList.data" nz-button class="mr-sm" down-file http-url="{{i.url}}" file-name="{{i.name}}">{{i.name}}</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+</nz-card>
+
+<nz-card nzTitle="校外实习/实训基地">
+
+  <nz-table #basicTable [nzData]='departmentCollectDetail.baseList' [nzHideOnSinglePage]="'true'" nzBordered>
+    <thead>
+      <tr>
+        <th>基地名称</th>
+        <th>建立时间</th>
+        <th>院系(单位)号</th>
+        <th>院系(单位)名称</th>
+        <th>面向校内专业</th>
+        <th>校内专业代码</th>
+        <th>是否是创业实习基地</th>
+        <th>地址</th>
+        <th>每次可接纳学生数(人)</th>
+        <th>当年接纳学生总数(人次)</th>
+        <!-- <th>备注</th> -->
+        <th>相关佐证资料</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let item of basicTable.data index as i'>
+        <td>{{item.baseName}}</td>
+        <td>{{item.builtUpTime|date:'yyyy-MM-dd HH:mm'}}</td>
+        <td>{{item.departmentNumber}}</td>
+        <td>{{item.departmentName}}</td>
+        <td>{{item.scienceName}}</td>
+        <td>{{item.scienceNumber}}</td>
+        <td>{{item.isPioneerBase?'是':'否'}}</td>
+        <td>{{item.address}}</td>
+        <td>{{item.accepteStudentAverage}}</td>
+        <td>{{item.yearAccepteStudentTotal}}</td>
+        <!-- <td>{{item.remark}}</td> -->
+        <td>
+          <button *ngFor="let i of item.fileList" nz-button class="mr-sm" down-file http-url="{{i.url}}" file-name="{{i.name}}">{{i.name}}</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+
+  <br>
+
+  <!-- <nz-table #baseFileList [nzData]='departmentCollectDetail.base.fileList' [nzHideOnSinglePage]="'true'" nzBordered nzTitle='相关佐证资料'>
+    <tbody>
+
+      <tr *ngFor="let i of baseFileList.data">
+        <td>
+          <button nz-button class="mr-sm" down-file [http-data]="data" http-url="{{i.url}}" file-name="{{i.name}}">{{i.name}}</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table> -->
+
+</nz-card>
+
+<!-- <nz-card nzTitle="备注">
+  {{departmentCollectDetail.remark}}
+</nz-card> -->

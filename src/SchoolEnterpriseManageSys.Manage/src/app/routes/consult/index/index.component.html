@@ -1,0 +1,39 @@
+<page-header></page-header>
+
+<nz-card>
+
+    <nz-card [nzBordered]="false">
+        <nz-input-group nzSearch nzSize="large" [nzSuffix]="suffixButton">
+            <input type="text" [(ngModel)]='input.content' nz-input placeholder="请输入回复内容">
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <button (click)='send()' nz-button nzType="primary" nzSize="large" nzSearch>发送</button>
+        </ng-template>
+    </nz-card>
+
+
+    <nz-list [nzDataSource]="advisoryList" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+        <ng-template #item let-item>
+            <nz-list-item>
+                <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="item.initiatorAvatarUrl" [nzDescription]="nzDescription">
+                    <ng-template #nzTitle>
+                        <b>{{item.initiatorName}}</b>
+                        <span *ngIf='item.recipientUserId' style='margin-left: 10px;margin-right: 10px;'>[回复]</span>
+                        <b *ngIf='item.recipientUserId'>{{item.recipientUserName}}</b>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <span>{{item.createTime|date:'yyyy-MM-dd HH:mm'}}</span>
+                    </ng-template>
+                    <ng-template #nzDescription>
+                        {{item.content}}
+                    </ng-template>
+                </nz-list-item-meta>
+            </nz-list-item>
+        </ng-template>
+    </nz-list>
+
+
+
+
+
+
+</nz-card>

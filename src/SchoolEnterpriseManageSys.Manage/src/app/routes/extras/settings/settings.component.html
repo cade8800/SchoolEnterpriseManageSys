@@ -1,0 +1,142 @@
+<nz-row [nzGutter]="24" class="py-lg">
+  <nz-col [nzSpan]="6">
+    <nz-card nzTitle="个人设置" class="ant-card__body-nopadding">
+      <a (click)="active=1" class="d-block py-sm px-md" [ngClass]="{'bg-primary-light text-white':active===1}">资料</a>
+      <a (click)="active=2" class="d-block py-sm px-md" [ngClass]="{'bg-primary-light text-white':active===2}">账户</a>
+      <!-- <a (click)="active=3" class="d-block py-sm px-md" [ngClass]="{'bg-primary-light text-white':active===3}">Emails</a>
+      <a (click)="active=4" class="d-block py-sm px-md" [ngClass]="{'bg-primary-light text-white':active===4}">Notifications</a> -->
+    </nz-card>
+    <!-- <nz-card nzTitle="Developer settings" class="ant-card__body-nopadding">
+      <a (click)="active=5" class="d-block py-sm px-md" [ngClass]="{'bg-primary-light text-white':active===5}">OAuth applications</a>
+      <a (click)="active=6" class="d-block py-sm px-md" [ngClass]="{'bg-primary-light text-white':active===6}">Personal access tokens</a>
+    </nz-card> -->
+  </nz-col>
+  <nz-col [nzSpan]="18">
+    <nz-card nzTitle="个人资料" *ngIf="active===1">
+      <nz-row [nzGutter]="64">
+        <nz-col [nzSpan]="16">
+          <form nz-form [formGroup]="profileForm" (ngSubmit)="profileSave($event, profileForm.value)" [nzLayout]="'vertical'">
+
+            <nz-form-item>
+              <nz-form-label nzFor="userName" nzRequired>登录名（不可更改）</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="userName" id="userName" readonly>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="email" nzRequired>邮箱</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="email" id="email">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="nickname" nzRequired>昵称</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="nickname" id="nickname">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="actualName" nzRequired>真实姓名</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="actualName" id="actualName">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="mobilephone" nzRequired>移动手机</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="mobilephone" id="mobilephone">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="fixedTelephone" nzRequired>固定电话</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="fixedTelephone" id="fixedTelephone">
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="position" nzRequired>职务</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="position" id="position">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button [nzType]="'primary'" [disabled]="profileForm.invalid">确认修改并保存</button>
+              </nz-form-control>
+            </nz-form-item>
+
+          </form>
+        </nz-col>
+        <nz-col [nzSpan]="8">
+          <h4>用户头像</h4>
+
+          <nz-upload class="avatar-uploader" [nzAction]="uploadUrl" nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false" [nzBeforeUpload]="beforeUpload" (nzChange)="handleChange($event)">
+            <ng-container *ngIf="!avatarUrl">
+              <i class="anticon anticon-plus"></i>
+              <div class="ant-upload-text">上传头像</div>
+            </ng-container>
+            <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
+          </nz-upload>
+
+        </nz-col>
+      </nz-row>
+    </nz-card>
+    <nz-card nzTitle="修改密码" *ngIf="active===2">
+      <nz-row [nzGutter]="64">
+        <nz-col [nzSpan]="16">
+          <form nz-form [nzLayout]="'vertical'">
+            <nz-form-item>
+              <nz-form-label nzFor="oldPassword" nzRequired>旧密码</nz-form-label>
+              <nz-form-control>
+                <input nz-input [(ngModel)]="pwd.oldPassword" name="oldPassword" id="oldPassword" type="password" required>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="newPassword" nzRequired>新密码（8~16位）</nz-form-label>
+              <nz-form-control>
+                <input nz-input [(ngModel)]="pwd.newPassword" name="newPassword" id="newPassword" type="password" required>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzRequired nzFor="confirmNewPassword">确认新密码（8~16位）</nz-form-label>
+              <nz-form-control>
+                <input nz-input [(ngModel)]="pwd.confirmNewPassword" name="confirmNewPassword" id="confirmNewPassword" type="password" required>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button (click)="pwdSave()" [nzType]="'primary'">重置密码</button>
+                <!-- <a class="pl-sm" [routerLink]="['/forget']">I forgot my password</a> -->
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+        </nz-col>
+      </nz-row>
+
+    </nz-card>
+
+  </nz-col>
+</nz-row>
+
+
+<style>
+  :host ::ng-deep .avatar-uploader>.ant-upload {
+    width: 200px;
+    height: 200px;
+  }
+
+  :host ::ng-deep .avatar-uploader>.ant-upload img {
+    width: 100%;
+  }
+
+  :host ::ng-deep .ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+  }
+
+  :host ::ng-deep .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+  }
+</style>

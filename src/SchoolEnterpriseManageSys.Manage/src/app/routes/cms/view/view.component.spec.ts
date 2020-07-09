@@ -1,0 +1,24 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CmsViewComponent } from './view.component';
+
+describe('CmsViewComponent', () => {
+  let component: CmsViewComponent;
+  let fixture: ComponentFixture<CmsViewComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ CmsViewComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CmsViewComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

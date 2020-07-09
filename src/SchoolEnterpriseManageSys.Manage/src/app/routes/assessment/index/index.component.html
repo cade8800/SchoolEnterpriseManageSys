@@ -1,0 +1,41 @@
+<page-header>
+    <ng-template #action>
+        <button *ngIf="settings.user.role=='administrator'" (click)="add()" nz-button nzType="primary">新增指标</button>
+    </ng-template>
+</page-header>
+<nz-card>
+
+    <nz-table #basicTable [nzData]="result" [nzPageSize]="30" [nzLoading]="tableLoading">
+        <thead>
+            <tr>
+                <th nzWidth='60px'>序号</th>
+                <th nzWidth='100px'>指标类型</th>
+                <th>指标及内容</th>
+                <th>完成指标标准</th>
+                <th nzWidth='60px'>分值</th>
+                <th nzWidth='150px'>关联合作项目类型</th>
+                <th nzWidth='150px'>备注</th>
+                <th nzWidth='120px'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor='let item of basicTable.data'>
+                <td>{{item.sort}}</td>
+                <td>{{item.indexType}}</td>
+                <td>{{item.content}}</td>
+                <td>{{item.completeStandard}}</td>
+                <td>{{item.standardScore}}</td>
+                <td>{{item.associatProjectTypeText}}</td>
+                <td>{{item.remark}}</td>
+                <td>
+                    <a *ngIf="settings.user.role=='administrator'" (click)='edit(item)'>编辑</a>
+                    <nz-divider *ngIf="settings.user.role=='administrator'" nzType="vertical"></nz-divider>
+                    <a *ngIf="settings.user.role=='administrator'" (click)='delete(item)'>{{item.isDeleted?'启用':'作废'}}</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </nz-table>
+
+</nz-card>

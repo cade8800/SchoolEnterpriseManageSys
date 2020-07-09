@@ -1,0 +1,69 @@
+<page-header>
+    <ng-template *ngIf="settings.user.role=='enterprise'" #action>
+        <button (click)="add()" nz-button nzType="primary">新增预约</button>
+    </ng-template>
+</page-header>
+
+
+<nz-card>
+
+    <nz-table #basicTable [nzData]="result.appointmentList" [nzFrontPagination]="false" [nzPageSize]="input.pageSize" [nzPageIndex]="input.pageIndex" [nzTotal]="result.totalCount" (nzPageIndexChange)="getResultPaging($event)" [nzLoading]="tableLoading" [nzShowQuickJumper]="true">
+        <thead>
+            <tr>
+                <th>企业名称</th>
+                <th>联系人</th>
+                <th>固定电话</th>
+                <th>创建时间</th>
+                <th>预约到访时间</th>
+                <th>商谈内容</th>
+                <th>学院对接部门</th>
+                <th>是否确认</th>
+                <th>是否过期</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor='let item of basicTable.data'>
+                <td>{{item.enterpriseName}}</td>
+                <td>{{item.contactName}}</td>
+                <td>{{item.fixedTelephone}}</td>
+                <td>{{item.createTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{item.visitsTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{item.content}}</td>
+                <td>{{item.departmentName}}</td>
+                <td>{{item.isConfirm?'已确认':'未确认'}}</td>
+                <td>{{item.status}}</td>
+                <td>{{item.isDeleted?'已取消':'正常'}}</td>
+                <td>
+                    <a *ngIf="settings.user.role=='enterprise'" (click)='edit(item)'>编辑</a>
+                    <nz-divider nzType="vertical" *ngIf="settings.user.role=='enterprise'"></nz-divider>
+                    <a *ngIf="settings.user.role=='enterprise'" (click)='delete(item)'>{{item.isDeleted?'启用':'取消'}}</a>
+                    <nz-divider nzType="vertical" *ngIf="settings.user.role=='enterprise'"></nz-divider>
+
+                    <a *ngIf="settings.user.role!='enterprise'&&!item.isConfirm" (click)='confirm(item)'>确认</a>
+                    <nz-divider nzType="vertical" *ngIf="settings.user.role!='enterprise'&&!item.isConfirm"></nz-divider>
+
+
+                    <!-- <a *ngIf="settings.user.role=='administrator'" (click)='send(item)'>转发到系部</a> -->
+                    <nz-dropdown *ngIf="settings.user.role=='administrator'">
+                        <a nz-dropdown>
+                            转发到系部 <i class="anticon anticon-down"></i>
+                        </a>
+                        <ul nz-menu nzSelectable>
+                            <li nz-menu-item *ngFor='let d of departmentList'>
+                                <a (click)='send(item.id,d.id)'>{{d.name}}</a>
+                            </li>
+                        </ul>
+                    </nz-dropdown>
+                    <nz-divider nzType="vertical" *ngIf="settings.user.role=='administrator'"></nz-divider>
+
+                    <a (click)='consult(item)'>{{settings.user.role=='enterprise'?'咨询':'回复'}}</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </nz-table>
+
+</nz-card>

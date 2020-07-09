@@ -1,0 +1,45 @@
+<page-header title="导入 - 学术成果"></page-header>
+
+<nz-card>
+  <p>
+    <button nz-button (click)="download()">下载导入模板</button>
+    <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="change($event)" multiple="false" class="ml-sm" />
+  </p>
+  <p>
+    <nz-table #nzTable [nzData]="targetList" [nzHideOnSinglePage]="true" [nzFrontPagination]="false" [nzLoading]="loading">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>系部</th>
+          <th>作者</th>
+          <th>论文名称</th>
+          <th>刊物名称</th>
+          <th>刊物主办单位</th>
+          <th>ISSN号</th>
+          <th>CN号</th>
+          <th>发表时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of nzTable.data index as i">
+          <td>{{i+1}}</td>
+          <td>{{item.departmentName}}</td>
+          <td>{{item.principal}}</td>
+          <td>{{item.projectName}}</td>
+          <td>{{item.publicationName}}</td>
+          <td>{{item.publicationsOrganizer}}</td>
+          <td>{{item.issn}}</td>
+          <td>{{item.cn}}</td>
+          <td>{{item.startTime|date:'yyyy-MM-dd'}}</td>
+          <td>
+            <a (click)="del(item)">删除</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </p>
+  <p>
+    <button nz-button (click)="upload()" [nzLoading]="loading">确定上传</button>
+  </p>
+</nz-card>

@@ -1,0 +1,155 @@
+<page-header [title]="id?'编辑-学术成果':'新增-学术成果'"></page-header>
+
+<nz-card>
+
+  <nz-row>
+    <nz-col nzSpan="16">
+
+      <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+        <nz-form-item *ngIf="settingsService['user'].role!='department'">
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="departmentId">系部</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-select formControlName="departmentId">
+              <nz-option *ngFor="let item of depList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="form.get('departmentId').dirty && form.get('departmentId').errors">请选择系部</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="principal">作者</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="principal" id="principal" placeholder="请填写作者全名">
+            <nz-form-explain *ngIf="form.get('principal').dirty && form.get('principal').errors">请输入作者</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="projectName">论文名称</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="projectName" id="projectName" placeholder="请填写论文名称">
+            <nz-form-explain *ngIf="form.get('projectName').dirty && form.get('projectName').errors">请输入论文名称</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="publicationName">刊物名称</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="publicationName" id="publicationName" placeholder="请填写刊物名称">
+            <nz-form-explain *ngIf="form.get('publicationName').dirty && form.get('publicationName').errors">请输入刊物名称</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="publicationsOrganizer">刊物主办单位</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="publicationsOrganizer" id="publicationsOrganizer" placeholder="请填写刊物主办单位">
+            <nz-form-explain *ngIf="form.get('publicationsOrganizer').dirty && form.get('publicationsOrganizer').errors">请输入刊物主办单位</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="issn">ISSN号</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="issn" id="issn" placeholder="请填写ISSN号">
+            <nz-form-explain *ngIf="form.get('issn').dirty && form.get('issn').errors">请输入ISSN号</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="cn">CN号</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="cn" id="cn" placeholder="请填写CN号">
+            <nz-form-explain *ngIf="form.get('cn').dirty && form.get('cn').errors">请输入CN号</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="startTime">发表时间</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-date-picker formControlName="startTime" id="startTime" [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
+            <nz-form-explain *ngIf="form.get('startTime').dirty && form.get('startTime').errors">请选择发表时间</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">关联项目</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+
+            <nz-form-text *ngIf="project.id&&project.relateProjectId">
+              [{{project.relateProjectTypeName}}]-{{project.relateProjectName}}
+              <a (click)="project.relateProjectId=''">重新选择</a>
+            </nz-form-text>
+            <div nz-row *ngIf="!project.id||!project.relateProjectId">
+              <div nz-col [nzSpan]="8">
+                <nz-select nzPlaceHolder="选择项目类型" formControlName='relateProjectType' (ngModelChange)='selectProjectType($event)'>
+                  <nz-option *ngFor="let item of projectTypeList" [nzLabel]="item.projectTypeName" [nzValue]="item.type">
+                  </nz-option>
+                </nz-select>
+              </div>
+              <div nz-col [nzSpan]="16">
+                <nz-select nzPlaceHolder="选择项目" formControlName='relateProjectId' nzAllowClear (nzScrollToBottom)="loadMoreProject()">
+                  <nz-option *ngFor="let item of projectList" [nzLabel]="item.number+' - '+item.createTime" [nzValue]="item.id">
+                  </nz-option>
+                  <nz-option *ngIf="moreProjectLoading" nzDisabled nzCustomContent>
+                    <i class="anticon anticon-loading anticon-spin loading-icon"></i>加载中...
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzFor="remark">备注</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <textarea nz-input formControlName="remark" id="remark" [nzAutosize]="{minRows: 4}" placeholder="请输入备注"></textarea>
+            <nz-form-explain *ngIf="form.get('remark').dirty && form.get('remark').errors">请输入备注</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzFor="goal">填写说明</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>
+              {{typeDetail.instructions||'暂无'}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+            <button nz-button type="submit" [nzLoading]="submitting">保存并提交</button>
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-col>
+    <nz-col nzSpan="8">
+
+      <form>
+        <nz-form-item>
+          <nz-form-label nzXs="6" nzSm="7">相关资料</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12">
+
+
+            <nz-upload [nzAction]="uploadUrl" (nzChange)='fileUpload($event)' [nzRemove]='fileRemove' [(nzFileList)]="fileList">
+              <!-- nzMultiple='true' nzLimit='5' -->
+              <button nz-button>
+                <i class="anticon anticon-upload"></i><span>上传</span>
+              </button>
+              <nz-form-extra>
+                <i class="anticon anticon-question-circle-o"></i>{{typeDetail.uploadFileDescription}}
+              </nz-form-extra>
+            </nz-upload>
+
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+
+    </nz-col>
+  </nz-row>
+
+
+</nz-card>

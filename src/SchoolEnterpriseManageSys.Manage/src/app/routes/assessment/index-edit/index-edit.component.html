@@ -1,0 +1,64 @@
+<page-header [title]="id?'编辑-考核指标':'新增-考核指标'"></page-header>
+
+<nz-card>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="indexType">指标类型</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <input nz-input formControlName="indexType" id="indexType" placeholder="请填写指标类型">
+                <nz-form-explain *ngIf="form.get('indexType').dirty && form.get('indexType').errors">请输入指标类型</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzFor="content">指标及内容</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <textarea nz-input formControlName="content" id="content" [nzAutosize]="{minRows: 4}" placeholder="请输入指标及内容"></textarea>
+                <nz-form-explain *ngIf="form.get('content').dirty && form.get('content').errors">请输入指标及内容</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzFor="completeStandard">完成指标标准</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <textarea nz-input formControlName="completeStandard" id="completeStandard" [nzAutosize]="{minRows: 4}" placeholder="请输入完成指标标准"></textarea>
+                <nz-form-explain *ngIf="form.get('completeStandard').dirty && form.get('completeStandard').errors">请输入完成指标标准</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="standardScore">分值</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <nz-input-number nz-input formControlName="standardScore" id="standardScore" placeholder="请填写分值">
+                </nz-input-number>
+                <nz-form-explain *ngIf="form.get('standardScore').dirty && form.get('standardScore').errors">请输入分值</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="settingsService['user'].role!='department'">
+            <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="associatProjectType">关联合作项目类型</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <nz-select formControlName="associatProjectType">
+                    <nz-option *ngFor="let item of projectTypeList" [nzLabel]="item.key" [nzValue]="item.value"> </nz-option>
+                </nz-select>
+                <nz-form-explain *ngIf="form.get('associatProjectType').dirty && form.get('associatProjectType').errors">请选择关联合作项目类型</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzXs="24" nzSm="7" nzFor="remark">备注</nz-form-label>
+            <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                <textarea nz-input formControlName="remark" id="remark" [nzAutosize]="{minRows: 4}" placeholder="请输入备注"></textarea>
+                <nz-form-explain *ngIf="form.get('remark').dirty && form.get('remark').errors">请输入备注</nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+                <button nz-button type="submit" [nzLoading]="submitting">保存并提交</button>
+
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+
+</nz-card>

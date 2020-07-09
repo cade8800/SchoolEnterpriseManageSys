@@ -1,0 +1,373 @@
+<page-header [title]="'系数据采集-录入'">
+  <div>{{ collectDetail.description }}</div>
+</page-header>
+<form nz-form [formGroup]="form" (ngSubmit)="_submitForm()" [nzLayout]="'vertical'">
+  <nz-card [nzBordered]="false" nzTitle="校友会与社会合作" [nzExtra]="extraCooperationTmp">
+    <!--
+      <nz-row nzGutter="16">
+        <nz-col nzLg="6" nzMd="12" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>校友会总数</nz-form-label>
+            <nz-form-control nzBlock>
+              <nz-input-number formControlName="alumniAssociationTotal" class="numInput" [nzPlaceHolder]="'请输入校友会总数'"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:6, offset:2}" [nzLg]="{span:8}" [nzMd]="{span:12}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>境外校友会数量</nz-form-label>
+            <nz-form-control>
+              <nz-input-number formControlName="overseasAlumniAssociationCount" class="numInput" [nzPlaceHolder]="'请输入境外校友会数量'"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:8, offset:2}" [nzLg]="{span:10}" [nzMd]="{span:24}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>境内校友会数量</nz-form-label>
+            <nz-form-control>
+              <nz-input-number formControlName="domesticAlumniAssociationCount" class="numInput" [nzPlaceHolder]="'请输入境内校友会数量'"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+    -->
+    <nz-row nzGutter="16">
+      <nz-col nzLg="6" nzMd="12" nzSm="24">
+        <!--
+          <nz-form-item>
+            <nz-form-label>合作机构总数</nz-form-label>
+            <nz-form-control>
+              <nz-input-number formControlName="cooperationAgencyTotal" class="numInput" [nzPlaceHolder]="'请输入合作机构总数'"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        -->
+        <!-- <nz-form-item>
+          <nz-form-label>学术机构数量</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="academicAgencyCount" class="numInput" [nzPlaceHolder]="'请输入学术机构数量'"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item> -->
+        <nz-form-item>
+          <nz-form-label>行业或企业机构数量</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="enterpriseCount" class="numInput" [nzPlaceHolder]="'请输入行业或企业机构数量'"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzXl]="{ span: 6, offset: 2 }" [nzLg]="{ span: 8 }" [nzMd]="{ span: 12 }" nzSm="24">
+        <!-- <nz-form-item>
+          <nz-form-label>行业或企业机构数量</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="enterpriseCount" class="numInput" [nzPlaceHolder]="'请输入行业或企业机构数量'"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item> -->
+        <nz-form-item>
+          <nz-form-label>地方政府数量</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="localGovernmentCount" class="numInput" [nzPlaceHolder]="'请输入地方政府数量'"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <!-- <nz-col [nzXl]="{ span: 8, offset: 2 }" [nzLg]="{ span: 10 }" [nzMd]="{ span: 24 }" nzSm="24">
+        <nz-form-item>
+          <nz-form-label>地方政府数量</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="localGovernmentCount" class="numInput" [nzPlaceHolder]="'请输入地方政府数量'"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col> -->
+    </nz-row>
+    <!--
+      <nz-row nzGutter="16">
+        <nz-col nzLg="6" nzMd="12" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>备注</nz-form-label>
+            <nz-form-control>
+              <textarea nz-input formControlName="cooperationRemark" [nzAutosize]="{minRows: 2}" placeholder="请输入备注"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:6, offset:2}" [nzLg]="{span:8}" [nzMd]="{span:12}" nzSm="24">
+        </nz-col>
+      </nz-row>
+    -->
+
+    <div class="description">
+      <h4>填写说明</h4>
+      <p>{{ collectDetail.cooperationDescription || '[暂无]' }}</p>
+    </div>
+  </nz-card>
+  <ng-template #extraCooperationTmp>
+    <a *ngIf="collectDepDetail.id && collectDepDetail.cooperation.id" (click)="uploadFile(collectDepDetail.cooperation.id)" nz-button>上传佐证材料</a>
+  </ng-template>
+
+  <nz-card [nzBordered]="false" nzTitle="校外实习/实训基地" [nzExtra]="extraBaseTmp">
+    <!--
+      <nz-row nzGutter="16">
+        <nz-col nzLg="6" nzMd="12" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>建立时间</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="builtUpTime" nzPlaceHolder="请选择建立时间" nzShowTime></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:6, offset:2}" [nzLg]="{span:8}" [nzMd]="{span:12}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>基地名称</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="请输入基地名称" formControlName="baseName">
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:8, offset:2}" [nzLg]="{span:10}" [nzMd]="{span:24}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>院系编号</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="请输入院系编号" formControlName="departmentNumber">
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+      <nz-row nzGutter="16">
+        <nz-col nzLg="6" nzMd="12" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>院系名称</nz-form-label>
+            <nz-form-control><input nz-input placeholder="请输入院系名称" formControlName="departmentName"></nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:6, offset:2}" [nzLg]="{span:8}" [nzMd]="{span:12}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>专业编号</nz-form-label>
+            <nz-form-control><input nz-input placeholder="请输入专业编号" formControlName="scienceNumber"></nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:8, offset:2}" [nzLg]="{span:10}" [nzMd]="{span:24}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>专业名称</nz-form-label>
+            <nz-form-control><input nz-input placeholder="请输入专业名称" formControlName="scienceName"></nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+      <nz-row nzGutter="16">
+        <nz-col nzLg="6" nzMd="12" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>地址</nz-form-label>
+            <nz-form-control>
+              <textarea nz-input formControlName="address" [nzAutosize]="{minRows: 2}" placeholder="请输入地址"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:6, offset:2}" [nzLg]="{span:8}" [nzMd]="{span:12}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>每次可接纳学生数（人）</nz-form-label>
+            <nz-form-control>
+              <nz-input-number formControlName="accepteStudentAverage" class='numInput' [nzPlaceHolder]="'请输入每次可接纳学生数（人）'"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzXl]="{span:8, offset:2}" [nzLg]="{span:10}" [nzMd]="{span:24}" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>当年接纳学生总数（人次）</nz-form-label>
+            <nz-form-control>
+              <nz-input-number formControlName="yearAccepteStudentTotal" class='numInput' [nzPlaceHolder]="'请输入当年接纳学生总数（人次）'"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+    -->
+    <!--
+      <nz-row nzGutter="16">
+        <nz-col nzLg="6" nzMd="12" nzSm="24">
+          <nz-form-item>
+            <nz-form-label>备注</nz-form-label>
+            <nz-form-control>
+              <textarea formControlName="baseRemark" nz-input [nzAutosize]="{minRows: 2}" placeholder="请输入备注"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+    -->
+
+    <nz-table formArrayName="items" [nzData]="items.value" [nzShowPagination]="false" [nzLoading]="tableLoading">
+      <thead>
+        <tr>
+          <th>基地名称</th>
+          <th>建立时间</th>
+          <th>院系(单位)号</th>
+          <th>院系(单位)名称</th>
+          <th>面向校内专业</th>
+          <th>校内专业代码</th>
+          <th>是否是创业实习基地</th>
+          <th>地址</th>
+          <th>每次可接纳学生数(人)</th>
+          <th>当年接纳学生总数(人次)</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].baseName }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <input nz-input formControlName="baseName" />
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].builtUpTime | date: 'yyyy-MM-dd' }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <nz-date-picker formControlName="builtUpTime" nzPlaceHolder="请选择建立时间"></nz-date-picker>
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].departmentNumber }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <input nz-input formControlName="departmentNumber" />
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].departmentName }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <input nz-input formControlName="departmentName" />
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].scienceName }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <input nz-input formControlName="scienceName" />
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].scienceNumber }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <input nz-input formControlName="scienceNumber" />
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].isPioneerBase ? '是' : '否' }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <nz-switch formControlName="isPioneerBase"></nz-switch>
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].address }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <input nz-input formControlName="address" />
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].accepteStudentAverage }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <nz-input-number formControlName="accepteStudentAverage" class="numInput"></nz-input-number>
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">{{ items.value[i].yearAccepteStudentTotal }}</span>
+            <span *ngIf="editIndex === i" nz-form-control>
+              <nz-input-number formControlName="yearAccepteStudentTotal" class="numInput"></nz-input-number>
+            </span>
+          </td>
+          <td>
+            <span *ngIf="editIndex !== i">
+              <a (click)="edit(i)">编辑</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <nz-popconfirm (nzOnConfirm)="del(i, items.value[i])" [nzTitle]="'是否要删除此行？'">
+                <a nz-popconfirm>删除</a>
+              </nz-popconfirm>
+              <nz-divider nzType="vertical" *ngIf="collectDepDetail.id && items.value[i].id"></nz-divider>
+              <a *ngIf="collectDepDetail.id && items.value[i].id" (click)="uploadFile(items.value[i].id)">上传佐证</a>
+            </span>
+            <span *ngIf="editIndex === i">
+              <a (click)="save(i, items.value[i])">保存</a>
+              <!--
+                <nz-divider nzType="vertical"></nz-divider>
+                <nz-popconfirm (nzOnConfirm)="cancel(i)" [nzTitle]="'是否要取消操作？'">
+                  <a nz-popconfirm>取消</a>
+                </nz-popconfirm>
+              -->
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <button *ngIf="editIndex === -1" nz-button [nzType]="'dashed'" (click)="add()" class="ant-btn__block mt-md">
+      <i class="anticon anticon-plus"></i> <span>新增基地</span>
+    </button>
+    <br />
+
+    <div class="description">
+      <h4>填写说明</h4>
+      <p>{{ collectDetail.baseDescription || '[暂无]' }}</p>
+    </div>
+  </nz-card>
+  <ng-template #extraBaseTmp>
+    <a (click)="download()" nz-button>下载导入模板</a>
+    <label class="importlable">批量导入
+      <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="change($event)" multiple="false" class="ml-sm" style="display:inline;" />
+    </label>
+  </ng-template>
+
+  <!--
+    <nz-card [nzBordered]="false" nzTitle="其它">
+      <nz-form-item>
+        <nz-form-label>备注</nz-form-label>
+        <nz-form-control>
+          <textarea formControlName="remark" nz-input [nzAutosize]="{minRows: 2}" placeholder="请输入备注"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-card>
+  -->
+
+  <footer-toolbar errorCollect>
+    <button nz-button type="primary" nzType="primary">提交</button>
+  </footer-toolbar>
+</form>
+
+<!--
+  <nz-row nzGutter="12">
+    <nz-col nzSpan="12">
+      <nz-card [nzBordered]="false" nzTitle="校友会与社会合作-佐证资料上传">
+        <nz-upload [nzAction]="uploadUrl" (nzChange)='cooperationFileUpload($event)' [nzRemove]='cooperationFileRemove' [(nzFileList)]="cooperationFileList">
+          <button nz-button>
+            <i class="anticon anticon-upload"></i><span>上传</span>
+          </button>
+        </nz-upload>
+      </nz-card>
+    </nz-col>
+    <nz-col nzSpan="12">
+      <nz-card [nzBordered]="false" nzTitle="校外实习/实训基地-佐证资料上传">
+        <nz-upload [nzAction]="uploadUrl" (nzChange)='baseFileUpload($event)' [nzRemove]='baseFileRemove' [(nzFileList)]="baseFileList">
+          <button nz-button>
+            <i class="anticon anticon-upload"></i><span>上传</span>
+          </button>
+        </nz-upload>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+-->
+<br /><br />
+
+<style>
+  .numInput.ant-input-number {
+    width: 100%;
+  }
+
+  .description {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 25px;
+    padding-left: 10px;
+  }
+
+  .description h4 {
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .importlable {
+    margin-left: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 0px 5px 15px;
+  }
+</style>

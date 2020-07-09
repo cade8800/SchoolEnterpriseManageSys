@@ -1,0 +1,7 @@
+<result type="success" [title]="title" description="">
+  <ng-template #title>
+    <div class="title">你的账户：{{email}} 注册成功</div>
+  </ng-template>
+  <!-- <button (click)="msg.success('email')" nz-button nzSize="large" [nzType]="'primary'">查看邮箱</button> -->
+  <button routerLink="/passport/login" nz-button nzSize="large">马上登录</button>
+</result>

@@ -1,0 +1,45 @@
+<page-header></page-header>
+
+<nz-card>
+    <nz-table #basicTable [nzData]="departmentCollectList" [nzPageSize]="10" [nzLoading]="tableLoading">
+
+        <thead>
+            <tr>
+                <th nzShowExpand></th>
+                <th>系部名称</th>
+                <th>状态</th>
+                <th>录入时间</th>
+                <th>最后更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <ng-template ngFor let-item [ngForOf]="basicTable.data">
+
+                <tr>
+                    <td nzShowExpand [(nzExpand)]="item.expand"></td>
+                    <td>{{item.departmentName}}</td>
+                    <td [ngStyle]="{'color':item.departmentCollectId?'#4ECB73':'#F2637B' }">{{item.departmentCollectId?'已录入':'未录入'}}</td>
+                    <td>{{item.createTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{item.updateTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>
+                        <a *ngIf='!item.departmentCollectId' disabled>查看</a>
+                        <a *ngIf='item.departmentCollectId' (click)='look(item)'>查看</a>
+                    </td>
+                </tr>
+                <tr [nzExpand]="item.expand">
+                    <td></td>
+                    <td colspan="10">{{item.remark}}</td>
+                </tr>
+
+            </ng-template>
+
+
+
+
+        </tbody>
+
+
+    </nz-table>
+</nz-card>

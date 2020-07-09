@@ -1,0 +1,73 @@
+<page-header>
+    <!-- <ng-template #action>
+        <button (click)="add()" nz-button nzType="primary">新建</button>
+    </ng-template> -->
+</page-header>
+<nz-card>
+
+    <p>
+        <nz-row nzGutter="8">
+            <nz-col nzSpan="4">
+                <input [(ngModel)]="input.keyword" nz-input placeholder="企业全称/简称/法人/联系人">
+            </nz-col>
+            <nz-col nzSpan="4">
+                <button (click)="search()" nz-button nzType="primary">搜索</button>
+            </nz-col>
+        </nz-row>
+    </p>
+
+    <nz-table #basicTable [nzData]="result.enterprises" [nzFrontPagination]="false" [nzPageSize]="input.pageSize" [nzPageIndex]="input.pageIndex" [nzTotal]="result.totalCount" (nzPageIndexChange)="getResultPaging($event)" [nzLoading]="tableLoading" [nzShowQuickJumper]="true">
+
+        <thead>
+            <tr>
+                <th nzShowExpand></th>
+                <th>企业全称</th>
+                <th>企业简称</th>
+                <th>法人</th>
+                <th>固定电话</th>
+                <th>联系人</th>
+                <th>规模</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <ng-template ngFor let-item [ngForOf]="basicTable.data">
+
+                <tr>
+                    <td nzShowExpand [(nzExpand)]="item.expand"></td>
+                    <td>{{item.fullName}}</td>
+                    <td>{{item.nameAbbreviation}}</td>
+                    <td>{{item.legalRepresentative}}</td>
+                    <td>{{item.fixedTelephone}}</td>
+                    <td>{{item.contactName}}</td>
+                    <td>{{item.scale}}</td>
+                    <td>
+                        <a (click)='edit(item)'>编辑</a>
+                        <!-- <nz-divider nzType="vertical"></nz-divider>
+                        <a>查看</a> -->
+                    </td>
+                </tr>
+                <tr [nzExpand]="item.expand">
+                    <td></td>
+                    <td>企业简介</td>
+                    <td colspan="7">{{item.companyProfile}}</td>
+                </tr>
+                <tr [nzExpand]="item.expand" *ngIf='item.fileList.length>0'>
+                    <td></td>
+                    <td>相关资料</td>
+                    <td colspan="7">
+                        <button *ngFor="let i of item.fileList" nz-button class="mr-sm" down-file [http-data]="data" http-url="{{i.url}}" file-name="{{i.name}}">{{i.name}}</button>
+                    </td>
+                </tr>
+
+            </ng-template>
+
+
+
+
+        </tbody>
+
+
+    </nz-table>
+</nz-card>

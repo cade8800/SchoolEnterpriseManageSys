@@ -1,0 +1,44 @@
+<page-header>
+  <ng-template #action>
+    <button (click)="add()" *ngIf="settings.user.role=='administrator'" nz-button nzType="primary">新建</button>
+  </ng-template>
+</page-header>
+<nz-card>
+  <nz-table #basicTable [nzData]="result.collectList" [nzFrontPagination]="false" [nzPageSize]="input.pageSize" [nzPageIndex]="input.pageIndex" [nzTotal]="result.totalCount" (nzPageIndexChange)="getResultPaging($event)" [nzLoading]="tableLoading" [nzShowQuickJumper]="true">
+    <thead>
+      <tr>
+        <th nzShowExpand></th>
+        <th>学年</th>
+        <th>截止时间</th>
+        <th>状态</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-item [ngForOf]="basicTable.data">
+        <tr>
+          <td nzShowExpand [(nzExpand)]="item.expand"></td>
+          <td>{{item.schoolYear}}</td>
+          <td>{{item.deadlineSubmission|date:'yyyy-MM-dd HH:mm'}}</td>
+          <td [ngStyle]="{'color':item.isDeadline?'#F2637B':'#4ECB73' }">{{item.isDeadline?'已截止':'进行中'}}</td>
+          <td>
+            <a *ngIf="settings.user.role=='administrator'" (click)='edit(item)'>编辑</a>
+            <nz-divider *ngIf="settings.user.role=='administrator'" nzType="vertical"></nz-divider>
+            <a *ngIf="settings.user.role=='administrator'" (click)='detail(item)'>查看</a>
+
+            <a (click)='depCollect(item)' *ngIf="!item.isDeadline&&settings.user.role=='department'">录入</a>
+            <nz-divider *ngIf="!item.isDeadline&&settings.user.role=='department'" nzType="vertical"></nz-divider>
+            <a (click)='depDetail(item)' *ngIf="item.collectDepartmentId&&settings.user.role=='department'">查看</a>
+            <a *ngIf="!item.collectDepartmentId&&settings.user.role=='department'" disabled>查看</a>
+
+          </td>
+        </tr>
+        <tr [nzExpand]="item.expand">
+          <td></td>
+          <td>说明</td>
+          <td colspan="3">{{item.description}}</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>

@@ -1,0 +1,14 @@
+<page-header>
+</page-header>
+
+<nz-card *ngFor='let item of typeList' nzTitle='{{item.projectTypeName}}'>
+  <p>
+    <label>填写说明</label>
+    <textarea [(ngModel)]='item.instructions' row="4" nz-input nzAutosize></textarea>
+  </p>
+  <p>
+    <label>上传文件说明</label>
+    <textarea row="4" [(ngModel)]='item.uploadFileDescription' nz-input nzAutosize></textarea>
+  </p>
+  <button (click)='update(item)' nz-button nzType="primary">保存修改</button>
+</nz-card>

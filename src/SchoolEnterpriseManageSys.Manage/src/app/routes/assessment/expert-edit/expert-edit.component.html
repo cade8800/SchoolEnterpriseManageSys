@@ -1,0 +1,137 @@
+<page-header title='考核 - 专家评分'></page-header>
+
+<nz-card>
+
+  <nz-row>
+    <nz-col nzSpan="16">
+
+      <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">指标序号</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{index.sort}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">指标类型</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{index.indexType}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">指标及内容</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{index.content}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">完成指标标准</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{index.completeStandard}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">标准分</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{index.standardScore}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">系部自评分</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{id?index.selfEvaluationScore:'[系部尚未自评]'}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">系部自评</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>{{id?index.selfEvaluation:'[系部尚未自评]'}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="expertRatingScore">专家评分</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-input-number formControlName="expertRatingScore" id="expertRatingScore" placeholder="请填写评分">
+            </nz-input-number>
+            <nz-form-explain *ngIf="form.get('expertRatingScore').dirty && form.get('expertRatingScore').errors">请输入评分</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzFor="expertRating">专家评语</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <textarea nz-input formControlName="expertRating" id="expertRating" [nzAutosize]="{minRows: 4}" placeholder="请输入评语"></textarea>
+            <nz-form-explain *ngIf="form.get('expertRating').dirty && form.get('expertRating').errors">请输入评语</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+            <button nz-button type="submit" [nzLoading]="submitting" [disabled]='!id'>保存并提交</button>
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+
+    </nz-col>
+
+    <nz-col nzSpan="8">
+      <h4>关联项目</h4>
+      <!-- <nz-table [nzBordered]="true" [nzData]="index.projectList||[]" #nzTable [nzPageSize]="10" [nzHideOnSinglePage]='true' [nzScroll]="{x:'900px'}">
+        <thead>
+          <tr>
+            <th nzWidth="130px">项目类型</th>
+            <th nzWidth="100px">项目编号</th>
+            <th>相关文件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let item of nzTable.data'>
+            <td>{{item.typeText}}</td>
+            <td>{{item.number}}</td>
+            <td>
+              <div *ngFor='let file of item.fileList'>
+                <button nz-button class="mr-sm fileBtn" down-file [http-url]="file.url" file-name="{{file.name}}">{{file.name}}</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table> -->
+
+      <nz-table [nzBordered]="true" [nzData]="projectList" #projectTotalTb [nzPageSize]="10" [nzHideOnSinglePage]='true' [nzScroll]="{x:'900px'}">
+        <thead>
+          <tr>
+            <th nzWidth="130px">项目类型</th>
+            <th nzWidth="100px">数量</th>
+            <th>相关文件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let item of projectTotalTb.data'>
+            <td>{{item.typeText}}</td>
+            <td>{{item.total}}</td>
+            <td>
+              <div *ngFor='let file of item.fileList'>
+                <button nz-button class="mr-sm fileBtn" down-file [http-url]="file.url" file-name="{{file.name}}">{{file.name}}</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <br>
+      <h4>自评佐证资料</h4>
+      <div *ngFor='let item of index.fileList'>
+        <button nz-button class="mr-sm fileBtn" down-file [http-url]="item.url" file-name="{{item.name}}">{{item.name}}</button>
+      </div>
+    </nz-col>
+  </nz-row>
+</nz-card>
+
+<style>
+  .fileBtn {
+    border-width: 0px;
+  }
+</style>

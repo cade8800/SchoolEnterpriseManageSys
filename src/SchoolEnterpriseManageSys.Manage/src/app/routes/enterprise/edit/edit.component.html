@@ -1,0 +1,93 @@
+<page-header [title]="'企业信息'"></page-header>
+
+<nz-card>
+
+    <nz-row>
+        <nz-col nzSpan="16">
+
+            <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="fullName">企业全称</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <input nz-input formControlName="fullName" id="fullName" placeholder="请填写企业全称">
+                        <nz-form-explain *ngIf="form.get('fullName').dirty && form.get('fullName').errors">请输入企业全称</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzFor="nameAbbreviation">企业简称</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <input nz-input formControlName="nameAbbreviation" id="nameAbbreviation" placeholder="请填写企业简称">
+                        <nz-form-explain *ngIf="form.get('nameAbbreviation').dirty && form.get('nameAbbreviation').errors">请输入企业简称</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="legalRepresentative">法人</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <input nz-input formControlName="legalRepresentative" id="legalRepresentative" placeholder="请填写法人">
+                        <nz-form-explain *ngIf="form.get('legalRepresentative').dirty && form.get('legalRepresentative').errors">请输入法人</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="fixedTelephone">固定电话</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <input nz-input formControlName="fixedTelephone" id="fixedTelephone" placeholder="请填写固定电话">
+                        <nz-form-explain *ngIf="form.get('fixedTelephone').dirty && form.get('fixedTelephone').errors">请输入固定电话</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="contactName">联系人</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <input nz-input formControlName="contactName" id="contactName" placeholder="请填写联系人">
+                        <nz-form-explain *ngIf="form.get('contactName').dirty && form.get('contactName').errors">请输入联系人</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzFor="scale">规模</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <nz-input-number nz-input formControlName="scale" id="scale" placeholder="请填写规模">
+                        </nz-input-number>
+                        <nz-form-explain *ngIf="form.get('scale').dirty && form.get('scale').errors">请输入规模</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzXs="24" nzSm="7" nzFor="companyProfile">简介</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+                        <textarea nz-input formControlName="companyProfile" id="companyProfile" [nzAutosize]="{minRows: 4}" placeholder="请输入简介"></textarea>
+                        <nz-form-explain *ngIf="form.get('companyProfile').dirty && form.get('companyProfile').errors">请输入简介</nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+
+
+
+                <nz-form-item>
+                    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+                        <button nz-button type="submit" [nzLoading]="submitting">保存并提交</button>
+
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-col>
+
+        <nz-col nzSpan="8">
+            <form>
+                <nz-form-item>
+                    <nz-form-label nzXs="6" nzSm="7">相关资料</nz-form-label>
+                    <nz-form-control nzXs="24" nzSm="12">
+                        <nz-upload [nzAction]="uploadUrl" (nzChange)='fileUpload($event)' [nzRemove]='fileRemove' [(nzFileList)]="fileList">
+                            <button nz-button>
+                                <i class="anticon anticon-upload"></i><span>上传</span>
+                            </button>
+                        </nz-upload>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-col>
+    </nz-row>
+</nz-card>

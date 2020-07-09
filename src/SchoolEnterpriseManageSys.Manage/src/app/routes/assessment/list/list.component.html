@@ -1,0 +1,40 @@
+<page-header>
+  <ng-template #action>
+    <button (click)="add()" *ngIf="settings.user.role=='administrator'" nz-button nzType="primary">新建考核</button>
+  </ng-template>
+</page-header>
+<nz-card>
+  <nz-table #basicTable [nzData]="result.assessmentList" [nzFrontPagination]="false" [nzPageSize]="input.pageSize" [nzPageIndex]="input.pageIndex" [nzTotal]="result.totalCount" (nzPageIndexChange)="getResultPaging($event)" [nzLoading]="tableLoading" [nzShowQuickJumper]="true">
+    <thead>
+      <tr>
+        <th>考核学年</th>
+        <th>考核开始日期</th>
+        <th>考核结束日期</th>
+        <th>截止时间</th>
+        <th>状态</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let item of basicTable.data'>
+        <td>{{item.schoolYear}}</td>
+        <td>{{item.startTime|date:'yyyy-MM-dd'}}</td>
+        <td>{{item.endTime|date:'yyyy-MM-dd'}}</td>
+        <td>{{item.deadline|date:'yyyy-MM-dd HH:mm'}}</td>
+        <td [ngStyle]="{'color':item.isDeadline?'#F2637B':'#4ECB73' }">{{item.isDeadline?'已截止':'进行中'}}</td>
+        <td>
+          <a *ngIf="settings.user.role=='administrator'" (click)='edit(item)'>编辑</a>
+          <nz-divider *ngIf="settings.user.role=='administrator'" nzType="vertical"></nz-divider>
+          <a *ngIf="settings.user.role=='administrator'" (click)='detail(item)'>查看</a>
+
+          <a *ngIf="!item.isDeadline&&settings.user.role=='expert'" (click)='detail(item)'>专家评分</a>
+
+          <a (click)='department(item)' *ngIf="!item.isDeadline&&settings.user.role=='department'&&item.assessmentDepartmentId">系部考核</a>
+
+          <a *ngIf="item.isDeadline" disabled>已截止</a>
+        </td>
+      </tr>
+
+    </tbody>
+  </nz-table>
+</nz-card>

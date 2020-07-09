@@ -1,0 +1,41 @@
+<page-header title="导入 - 订单培养"></page-header>
+
+<nz-card>
+  <p>
+    <button nz-button (click)="download()">下载导入模板</button>
+    <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="change($event)" multiple="false" class="ml-sm" />
+  </p>
+  <p>
+    <nz-table #nzTable [nzData]="targetList" [nzHideOnSinglePage]="true" [nzFrontPagination]="false" [nzLoading]="loading">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>系别</th>
+          <th>专业</th>
+          <th>班级名称</th>
+          <th>班级人数</th>
+          <th>建立时间</th>
+          <th>依托单位</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of nzTable.data index as i">
+          <td>{{i+1}}</td>
+          <td>{{item.departmentName}}</td>
+          <td>{{item.science}}</td>
+          <td>{{item.className}}</td>
+          <td>{{item.classStudentCount}}</td>
+          <td>{{item.startTime|date:'yyyy-MM-dd'}}</td>
+          <td>{{item.enterpriseName}}</td>
+          <td>
+            <a (click)="del(item)">删除</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </p>
+  <p>
+    <button nz-button (click)="upload()" [nzLoading]="loading">确定上传</button>
+  </p>
+</nz-card>

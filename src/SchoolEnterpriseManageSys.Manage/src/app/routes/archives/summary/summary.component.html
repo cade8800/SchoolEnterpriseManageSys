@@ -1,0 +1,41 @@
+<page-header>
+</page-header>
+
+<div class="selectSummaryBlock">
+  <div class='selectSummaryBlock-header'>
+    <span>统计查询</span>
+    <div class="selectSummaryBlock-left">
+      <nz-range-picker (ngModelChange)="datePickerChange($event)" [(ngModel)]="dateRange" style="display:inline-block; width: 256px;"></nz-range-picker>
+      <nz-select (ngModelChange)="departmentChange($event)" style="display:inline-block; width: 256px; margin-left: 8px;" [(ngModel)]="departmentId" name="value" nzPlaceHolder="" nzAllowClear>
+        <nz-option *ngFor="let item of departmentList" [nzLabel]="item.name" [nzValue]="item.id">
+        </nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div id='selectSummaryChart'></div>
+</div>
+
+<nz-card [nzBordered]="false" class="ant-card__body-nopadding sales-card">
+  <div nz-row>
+    <br><br>
+    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="16">
+      <div class="bar">
+        <g2-bar [autoLabel]="false" height="295" [title]="'各类档案统计'" [data]="summary.timelineList"></g2-bar>
+      </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8">
+      <div class="rank-list">
+        <h4 class="rank-title">档案统计排名</h4>
+        <ul>
+          <li *ngFor="let i of summary.rankingList; let idx = index">
+            <div>
+              <span class="icon" [ngClass]="{'active': idx < 3}">{{idx+1}}</span>
+              {{i.title}}
+            </div>
+            <span>{{i.total}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nz-card>

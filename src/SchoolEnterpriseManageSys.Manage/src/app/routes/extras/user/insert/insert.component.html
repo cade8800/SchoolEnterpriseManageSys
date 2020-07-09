@@ -1,0 +1,94 @@
+<div class="modal-header">
+  <div class="modal-title">新建-{{title[param]}}</div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()" nz-form>
+  <nz-alert *ngIf="errorMsg" [nzType]="'error'" [nzMessage]="errorMsg" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">用户名</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <input nz-input formControlName="userName" />
+
+
+      <ng-container *ngIf="userName.dirty && userName.errors">
+        <nz-form-explain *ngIf="userName.errors?.required">请输入用户名</nz-form-explain>
+        <nz-form-explain *ngIf="!userName.errors?.required&&userName.errors">用户名长度应在5~30位之间</nz-form-explain>
+      </ng-container>
+
+
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">真实姓名</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <input nz-input formControlName="actualName" />
+      <ng-container *ngIf="actualName.dirty && actualName.errors">
+        <nz-form-explain *ngIf="actualName.errors?.maxlength">真实姓名不能超出30位</nz-form-explain>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">移动电话</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <input nz-input formControlName="mobilephone" />
+      <ng-container *ngIf="mobilephone.dirty && mobilephone.errors">
+        <nz-form-explain *ngIf="mobilephone.errors?.maxlength">请输入正确的移动电话</nz-form-explain>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">固定电话</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <input nz-input formControlName="fixedTelephone" />
+      <ng-container *ngIf="fixedTelephone.dirty && fixedTelephone.errors">
+        <nz-form-explain *ngIf="fixedTelephone.errors?.maxlength">请输入正确的固定电话</nz-form-explain>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">电子邮箱</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <input nz-input formControlName="email" />
+      <ng-container *ngIf="email.dirty && email.errors">
+        <nz-form-explain *ngIf="email.errors?.email">请输入正确的电子邮箱</nz-form-explain>
+        <nz-form-explain *ngIf="email.errors?.maxlength">电子邮箱不能超出60位</nz-form-explain>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="mb-sm" *ngIf="param==16">
+    <nz-form-label nzSpan="4">所属系</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <nz-select [nzShowSearch]="true" nz-input (nzOpenChange)="loadDepartment()" formControlName="departmentId"
+        nzPlaceHolder="选择系">
+        <nz-option *ngFor="let item of departmentList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">职务</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <input nz-input formControlName="position" />
+      <ng-container *ngIf="position.dirty && position.errors">
+        <nz-form-explain *ngIf="position.errors?.maxlength">职务不能超出15位</nz-form-explain>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="mb-sm">
+    <nz-form-label nzSpan="4">默认密码</nz-form-label>
+    <nz-form-control nzSpan="8">
+      <label>12345678</label>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button [nzLoading]="http.loading" [nzType]="'primary'" type="submit">保存</button>
+  </div>
+
+</form>

@@ -1,0 +1,77 @@
+<page-header title='考核 - 系 - 指标'></page-header>
+
+<nz-card>
+  <nz-table #basicTable [nzData]="result.assessmentDepartmentIndexOutputs" nzPageSize="30" [nzLoading]="tableLoading" [nzHideOnSinglePage]="true">
+    <thead>
+      <tr>
+        <th nzShowExpand></th>
+        <th>序号</th>
+        <!-- nzWidth='60px' -->
+        <th>指标类型</th>
+        <!-- nzWidth='100px' -->
+        <th>指标及内容</th>
+        <th>完成指标标准</th>
+        <th>标准分</th>
+        <!-- nzWidth='80px' -->
+        <th>自评分</th>
+        <!-- nzWidth='80px' -->
+        <th>自评</th>
+        <!-- nzWidth='200px' -->
+        <th *ngIf="settings.user.role!='department'">专家评分</th>
+        <!-- nzWidth='100px' -->
+        <th *ngIf="settings.user.role!='department'">专家评语</th>
+        <!-- nzWidth='200px' -->
+        <th>操作</th>
+        <!-- nzWidth='120px' -->
+      </tr>
+    </thead>
+    <tbody>
+
+      <ng-template ngFor let-item [ngForOf]="basicTable.data">
+        <tr>
+          <td nzShowExpand [(nzExpand)]="item.expand"></td>
+          <td>{{item.sort}}</td>
+          <td>{{item.indexType}}</td>
+          <td>{{item.content}}</td>
+          <td>{{item.completeStandard}}</td>
+          <td>{{item.standardScore}}</td>
+
+          <td>{{item.selfEvaluationScore}}</td>
+          <td>{{item.selfEvaluation}}</td>
+          <td *ngIf="settings.user.role!='department'">{{item.expertRatingScore}}</td>
+          <td *ngIf="settings.user.role!='department'">{{item.expertRating}}</td>
+          <td>
+            <a *ngIf="settings.user.role=='department'" (click)='department(item)'>自评</a>
+            <!-- <nz-divider *ngIf="settings.user.role=='department'" nzType="vertical"></nz-divider> -->
+
+            <a *ngIf="settings.user.role=='expert'" (click)='expert(item)'>专家评分</a>
+            <!-- <nz-divider *ngIf="settings.user.role=='expert'" nzType="vertical"></nz-divider> -->
+
+            <a *ngIf="settings.user.role=='administrator'" (click)='detail(item)'>查看详细</a>
+          </td>
+        </tr>
+        <tr [nzExpand]="item.expand">
+          <td></td>
+          <td colspan="2">相关资料</td>
+          <td colspan="9">
+            <button *ngFor='let f of item.fileList' nz-button class="mr-sm fileBtn" down-file [http-url]="f.url" file-name="{{f.name}}">{{f.name}}</button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <tr style="font-weight: 700;">
+        <td></td>
+        <td colspan="2">合计：</td>
+        <td></td>
+        <td></td>
+        <td>{{standardScoreTotal}}</td>
+        <td>{{selfEvaluationScoreTotal}}</td>
+        <td></td>
+        <td *ngIf="settings.user.role!='department'">{{expertRatingScoreTotal}}</td>
+        <td *ngIf="settings.user.role!='department'"></td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </nz-table>
+</nz-card>

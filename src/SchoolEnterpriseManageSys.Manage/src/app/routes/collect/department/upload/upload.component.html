@@ -1,0 +1,12 @@
+<div class="modal-header">
+  <div class="modal-title">上传佐证材料</div>
+</div>
+
+<!-- <nz-spin class="modal-spin"></nz-spin> -->
+<div>
+  <nz-upload [nzAction]="uploadUrl" (nzChange)='fileUpload($event)' [nzRemove]='fileRemove' [(nzFileList)]="fileList">
+    <button nz-button>
+      <i class="anticon anticon-upload"></i><span>上传</span>
+    </button>
+  </nz-upload>
+</div>

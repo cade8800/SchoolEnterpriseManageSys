@@ -1,0 +1,81 @@
+<page-header>
+  <ng-template #action>
+    <!-- <nz-button-group>
+      <button (click)="add()" nz-button nzType="primary">新建系管理员账号</button>
+      <button (click)="add()" nz-button nzType="primary">新建专家账号</button>
+    </nz-button-group> -->
+
+    <nz-dropdown>
+      <button nz-button nzType="primary" nz-dropdown>新建用户<i class="anticon anticon-down"></i></button>
+      <ul nz-menu>
+        <li nz-menu-item (click)="insertUser(2)">
+          <a>系统管理员</a>
+        </li>
+        <li nz-menu-item (click)="insertUser(16)">
+          <a>系管理员</a>
+        </li>
+        <li nz-menu-item (click)="insertUser(8)">
+          <a>专家</a>
+        </li>
+      </ul>
+    </nz-dropdown>
+
+  </ng-template>
+</page-header>
+<nz-card>
+  <!-- <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf> -->
+  <!-- <simple-table #st [data]="url" [columns]="columns"></simple-table> -->
+
+  <!-- [nzWidthConfig]="['15%',null,'20%','15%']" -->
+  <nz-table #basicTable [nzData]="userResult.userList" [nzFrontPagination]="false" [nzPageSize]="input.pageSize"
+    [nzPageIndex]="input.pageIndex" [nzTotal]="userResult.totalCount" (nzPageIndexChange)="getUserPaging($event)"
+    [nzLoading]="tableLoading" [nzScroll]="{x:'1800px'}" [nzShowQuickJumper]="true">
+    <thead>
+      <tr>
+        <th nzWidth="55px" nzLeft="0px">#</th>
+        <th nzWidth="200px" nzLeft="55px">用户名</th>
+        <th>真实姓名</th>
+        <th>用户类型</th>
+        <th>角色</th>
+        <th>昵称</th>
+        <th>手机</th>
+        <th>电话</th>
+        <th>邮箱</th>
+        <th>单位</th>
+        <th>职务</th>
+        <th>注册时间</th>
+        <th>最后登录时间</th>
+        <th>状态</th>
+        <th nzWidth="130px" nzRight="0px">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let item of basicTable.data index as i'>
+        <td nzLeft="0px">{{i+1}}</td>
+        <td nzLeft="55px">{{item.userName}}</td>
+        <td>{{item.actualName}}</td>
+        <td>{{item.userTypeText}}</td>
+        <td>{{item.roleTypeText}}</td>
+        <td>{{item.nickname}}</td>
+        <td>{{item.mobilephone}}</td>
+        <td>{{item.fixedTelephone}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.userType==4?item.departmentName:item.enterpriseName}}</td>
+        <td>{{item.position}}</td>
+        <td>{{item.createTime|date:'yyyy-MM-dd'}}</td>
+        <td>{{item.lastLoginTime|date:'yyyy-MM-dd'}}</td>
+        <td>{{item.isDelete?"已禁用":"正常"}}</td>
+        <td nzRight="0px">
+          <a (click)="updateUserState(item)">{{item.isDelete?'启用':'禁用'}} </a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="resetPassword(item.id)">重置</a>
+          <i nz-tooltip nzTitle="重置后密码将默认设置为12345678" class="anticon anticon-info-circle-o"></i>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+
+
+
+</nz-card>

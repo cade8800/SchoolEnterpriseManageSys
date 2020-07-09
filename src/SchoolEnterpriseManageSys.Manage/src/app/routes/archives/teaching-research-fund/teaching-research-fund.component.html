@@ -1,0 +1,69 @@
+<page-header>
+  <ng-template #action>
+    <button *ngIf="settings.user.role=='administrator'||settings.user.role=='department'" (click)="add()" nz-button nzType="primary">新建</button>
+    <button *ngIf="settings.user.role=='administrator'||settings.user.role=='department'" (click)="router.navigateByUrl('/archives/TeachingResearchFund/import')" nz-button>批量导入</button>
+  </ng-template>
+</page-header>
+<nz-card>
+
+  <p>
+    <nz-row nzGutter="8">
+      <nz-col nzSpan="4">
+        <input [(ngModel)]="input.keyword" nz-input placeholder="编号/名称/系部/企业">
+      </nz-col>
+      <nz-col>
+        <button (click)="search()" nz-button nzType="primary">搜索</button>
+        <button *ngIf="settings.user.role=='administrator'||settings.user.role=='department'" (click)="exportData()" nz-button>导出数据</button>
+      </nz-col>
+    </nz-row>
+  </p>
+
+  <nz-table #basicTable [nzData]="result.projectList" [nzFrontPagination]="false" [nzPageSize]="input.pageSize" [nzPageIndex]="input.pageIndex" [nzTotal]="result.totalCount" (nzPageIndexChange)="getResultPaging($event)" [nzLoading]="tableLoading" [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" [nzPageSizeOptions]="[ 10, 30, 50, 100, 200 ]" (nzPageSizeChange)="pageSizeChange($event)">
+    <thead>
+      <tr>
+        <th nzShowExpand></th>
+        <th>序号</th>
+        <th>系别</th>
+        <th>基金名称</th>
+        <th>基金款项</th>
+        <th>依托单位</th>
+        <th>建立时间</th>
+        <th>结束时间</th>
+        <th *ngIf="settings.user.role=='administrator'||settings.user.role=='department'">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-item [ngForOf]="basicTable.data">
+
+        <tr>
+          <td nzShowExpand [(nzExpand)]="item.expand"></td>
+          <td>{{item.number}}</td>
+          <td>{{item.departmentName}}</td>
+          <td>{{item.projectName}}</td>
+          <td>{{item.amount}}</td>
+          <td>{{item.enterpriseName}}</td>
+          <td>{{item.startTime|date:'yyyy-MM-dd'}}</td>
+          <td>{{item.endTime|date:'yyyy-MM-dd'}}</td>
+          <td *ngIf="settings.user.role=='administrator'||settings.user.role=='department'">
+            <a *ngIf="settings.user.role=='administrator'||settings.user.role=='department'" (click)='edit(item)'>编辑</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-popconfirm nzTitle="删除后不可恢复，确定删除吗？" (nzOnConfirm)="delete(item.id)">删除</a>
+          </td>
+        </tr>
+        <tr [nzExpand]="item.expand">
+          <td></td>
+          <td>备注</td>
+          <td colspan="10">{{item.remark}}</td>
+        </tr>
+        <tr [nzExpand]="item.expand">
+          <td></td>
+          <td>相关资料</td>
+          <td colspan="10">
+            <button *ngFor='let f of item.fileList' nz-button class="mr-sm fileBtn" down-file [http-url]="f.url" file-name="{{f.name}}">{{f.name}}</button>
+          </td>
+        </tr>
+
+      </ng-template>
+    </tbody>
+  </nz-table>
+</nz-card>

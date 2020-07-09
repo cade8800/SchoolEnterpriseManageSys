@@ -1,0 +1,155 @@
+<page-header [title]="id?'编辑-校外实践基地':'新增-校外实践基地'"></page-header>
+
+<nz-card>
+
+  <nz-row>
+    <nz-col nzSpan="16">
+
+      <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+        <nz-form-item *ngIf="settingsService['user'].role!='department'">
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="departmentId">系部</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-select formControlName="departmentId">
+              <nz-option *ngFor="let item of depList" [nzLabel]="item.name" [nzValue]="item.id"> </nz-option>
+            </nz-select>
+            <nz-form-explain *ngIf="form.get('departmentId').dirty && form.get('departmentId').errors">请选择系部</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="science">依托专业</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="science" id="science" placeholder="请填写依托专业">
+            <nz-form-explain *ngIf="form.get('science').dirty && form.get('science').errors">请输入依托专业</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="enterpriseName">单位/企业</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input formControlName="enterpriseName" nz-input id="enterpriseName" placeholder="请填写单位/企业">
+
+            <!-- <nz-select formControlName="enterpriseName" nzPlaceHolder="请选择单位/企业" nzAllowClear>
+              <nz-option *ngFor="let item of enterpriseList" [nzLabel]="item.fullName||item.nameAbbreviation" [nzValue]="item.id">
+              </nz-option>
+            </nz-select> -->
+
+            <nz-form-explain *ngIf="form.get('enterpriseName').dirty && form.get('enterpriseName').errors">请填写单位/企业</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="principal">联系人</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <input nz-input formControlName="principal" id="principal" placeholder="请填写联系人">
+            <nz-form-explain *ngIf="form.get('principal').dirty && form.get('principal').errors">请输入联系人</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="rangeTime">建立~结束时间</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+
+            <nz-range-picker formControlName="rangeTime"></nz-range-picker>
+
+            <nz-form-explain *ngIf="form.get('rangeTime').dirty && form.get('rangeTime').errors">请选择时间范围</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzFor="reportLevel">申报情况</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+
+            <nz-select formControlName="reportLevel" nzPlaceHolder="申报情况" nzAllowClear>
+              <nz-option *ngFor="let item of reportLevel" [nzLabel]="item.label" [nzValue]="item.value">
+              </nz-option>
+            </nz-select>
+
+            <nz-form-explain *ngIf="form.get('reportLevel').dirty && form.get('reportLevel').errors">请选择申报情况</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <!-- <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7">关联项目</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+
+            <nz-form-text *ngIf="project.id&&project.relateProjectId">
+              [{{project.relateProjectTypeName}}]-{{project.relateProjectName}}
+              <a (click)="project.relateProjectId=''">重新选择</a>
+            </nz-form-text>
+            <div nz-row *ngIf="!project.id||!project.relateProjectId">
+              <div nz-col [nzSpan]="8">
+                <nz-select nzPlaceHolder="选择项目类型" formControlName='relateProjectType' (ngModelChange)='selectProjectType($event)'>
+                  <nz-option *ngFor="let item of projectTypeList" [nzLabel]="item.projectTypeName" [nzValue]="item.type">
+                  </nz-option>
+                </nz-select>
+              </div>
+              <div nz-col [nzSpan]="16">
+                <nz-select nzPlaceHolder="选择项目" formControlName='relateProjectId' nzAllowClear (nzScrollToBottom)="loadMoreProject()">
+                  <nz-option *ngFor="let item of projectList" [nzLabel]="item.number+' - '+item.createTime"
+                    [nzValue]="item.id">
+                  </nz-option>
+                  <nz-option *ngIf="moreProjectLoading" nzDisabled nzCustomContent>
+                    <i class="anticon anticon-loading anticon-spin loading-icon"></i>加载中...
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+
+          </nz-form-control>
+        </nz-form-item> -->
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzFor="remark">备注</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <textarea nz-input formControlName="remark" id="remark" [nzAutosize]="{minRows: 4}" placeholder="请输入备注"></textarea>
+            <nz-form-explain *ngIf="form.get('remark').dirty && form.get('remark').errors">请输入备注</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+
+        <nz-form-item>
+          <nz-form-label nzXs="24" nzSm="7" nzFor="goal">填写说明</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+            <nz-form-text>
+              {{typeDetail.instructions||'暂无'}}</nz-form-text>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+            <button nz-button type="submit" [nzLoading]="submitting">保存并提交</button>
+
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-col>
+    <nz-col nzSpan="8">
+      <form>
+        <nz-form-item>
+          <nz-form-label nzXs="6" nzSm="7">相关资料</nz-form-label>
+          <nz-form-control nzXs="24" nzSm="12">
+            <nz-upload [nzAction]="uploadUrl" (nzChange)='fileUpload($event)' [nzRemove]='fileRemove' [(nzFileList)]="fileList">
+              <!-- nzMultiple='true' nzLimit='5' -->
+              <button nz-button>
+                <i class="anticon anticon-upload"></i><span>上传</span>
+              </button>
+              <nz-form-extra>
+                <i class="anticon anticon-question-circle-o"></i>{{typeDetail.uploadFileDescription}}
+              </nz-form-extra>
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-col>
+  </nz-row>
+</nz-card>
